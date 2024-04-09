@@ -1,6 +1,7 @@
 <template>
   <v-img
-    :src="starWarsBG"
+    :src="STAR_WARS_BG.src"
+    :title="STAR_WARS_BG.title"
     cover
     class="overflow"
     gradient="to top right, rgba(0,0,0,.9), rgba(0,0,0,.5)"
@@ -39,7 +40,7 @@
 <script>
 import SignupForm from '@/components/SignupForm.vue'
 import LoginForm from '@/components/LoginForm.vue'
-import starWarsBG from '@/assets/img/star_wars_bg.jpg'
+import { STAR_WARS_BG } from '@/constants/common.js'
 
 export default {
   components: {
@@ -56,7 +57,7 @@ export default {
   },
   data() {
     return {
-      starWarsBG
+      STAR_WARS_BG
     }
   }
 }
