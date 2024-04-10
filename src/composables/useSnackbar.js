@@ -5,7 +5,7 @@ const state = reactive({
   errorMsg: ''
 })
 
-export default function use() {
+export default function useSnackbar() {
   // === Composables ===
   //   const router = useRouter()
 

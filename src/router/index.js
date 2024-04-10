@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getAuth } from 'firebase/auth'
+import useSnackbar from '@/composables/useSnackbar.js'
 
 const routes = [
   {
@@ -28,7 +29,8 @@ router.beforeEach((to, from, next) => {
     if (getAuth().currentUser) {
       next()
     } else {
-      alert("you don't have access!")
+      const snackbar = useSnackbar()
+      snackbar.showSnackbar("you don't have access to that page!")
       next('/')
     }
   }
