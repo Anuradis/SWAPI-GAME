@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { reactive, readonly } from 'vue'
 import {
   getAuth,
   signOut,
@@ -68,7 +68,7 @@ export default function useUser() {
 
   return {
     // === State ===
-    state,
+    state: readonly(state),
     // === Setters ===
     setCurrentUser,
     // === Methods ===

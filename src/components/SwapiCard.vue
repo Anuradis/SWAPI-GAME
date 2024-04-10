@@ -1,24 +1,27 @@
 <template>
-  <v-card class="custom-card" :color="color" dark>
+  <v-card :loading="isLoading" height="550" class="custom-card" :color="cardDetails.color" dark>
     <v-card-title>{{ title }}</v-card-title>
     <v-card-text>
-      <template v-if="type === 'people'">
+      <template v-if="cardDetails.resourceType === SUPPORTED_SWAPI_TYPES.people">
         <v-list dense>
-          <v-list-item v-for="(item, index) in details" :key="index">
-            <v-list-item-title>{{ item.name }}</v-list-item-title>
-            <v-list-item-subtitle>Height: {{ item.height }} cm</v-list-item-subtitle>
-            <v-list-item-subtitle>Mass: {{ item.mass }} kg</v-list-item-subtitle>
-            <v-list-item-subtitle>Gender: {{ item.gender }}</v-list-item-subtitle>
+          <v-list-item>
+            <v-list-item-title>{{ cardDetails.name }}</v-list-item-title>
+            <v-list-item-subtitle>Height: {{ cardDetails.height }} cm</v-list-item-subtitle>
+            <v-list-item-subtitle>Mass: {{ cardDetails.mass }} kg</v-list-item-subtitle>
+            <v-list-item-subtitle>Gender: {{ cardDetails.gender }}</v-list-item-subtitle>
           </v-list-item>
         </v-list>
       </template>
-      <template v-else-if="type === 'starships'">
+      <template v-else-if="cardDetails.resourceType === SUPPORTED_SWAPI_TYPES.starships">
         <v-list dense>
-          <v-list-item v-for="(item, index) in details" :key="index">
-            <v-list-item-title>{{ item.name }}</v-list-item-title>
-            <v-list-item-subtitle>Model: {{ item.model }}</v-list-item-subtitle>
-            <v-list-item-subtitle>Manufacturer: {{ item.manufacturer }}</v-list-item-subtitle>
-            <v-list-item-subtitle>Class: {{ item.starship_class }}</v-list-item-subtitle>
+          <v-list-item>
+            <v-list-item-title>{{ cardDetails.name }}</v-list-item-title>
+            <v-list-item-subtitle>Crew: {{ cardDetails.crew }}</v-list-item-subtitle>
+            <v-list-item-subtitle>Model: {{ cardDetails.model }}</v-list-item-subtitle>
+            <v-list-item-subtitle
+              >Manufacturer: {{ cardDetails.manufacturer }}</v-list-item-subtitle
+            >
+            <v-list-item-subtitle>Class: {{ cardDetails.starshipClass }}</v-list-item-subtitle>
           </v-list-item>
         </v-list>
       </template>
@@ -27,30 +30,27 @@
 </template>
 
 <script>
+import { SUPPORTED_SWAPI_TYPES } from '@/constants/common'
+
 export default {
   props: {
     title: {
       type: String,
       required: true
     },
-    type: {
-      type: String,
+    cardDetails: {
+      type: Object,
       required: true
     },
-    details: {
-      type: Array,
+    isLoading: {
+      type: Boolean,
       required: true
-    },
-    color: {
-      type: String,
-      default: 'white'
     }
-  }
+  },
+  data() {
+    return {
+      SUPPORTED_SWAPI_TYPES
+    }
+  },
 }
 </script>
-
-<style scoped>
-.custom-card {
-  margin-bottom: 20px;
-}
-</style>
