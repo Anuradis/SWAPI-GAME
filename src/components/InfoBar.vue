@@ -2,7 +2,8 @@
   <v-layout>
     <v-app-bar color="primary" prominent>
       <v-toolbar-title
-        >Logged in: <span>Roniek Ronialski</span> <v-btn>Logout</v-btn></v-toolbar-title
+        >Logged in: <span>{{ user.state?.currentUser?.email }}</span>
+        <v-btn @click="user.onSignOut">Logout</v-btn></v-toolbar-title
       >
 
       <v-toolbar-items class="pa-5 counter">
@@ -15,10 +16,12 @@
 </template>
 
 <script>
+import useUser from '@/composables/useUser.js'
+
 export default {
   setup() {
     return {
-      // initialize useUser composable
+      user: useUser()
     }
   }
 }

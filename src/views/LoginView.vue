@@ -22,17 +22,20 @@
         <v-row justify="space-around">
           <v-col cols="10" md="3">
             <h3 class="display-2 text-center text-white pa-2">Login in your existing account</h3>
-            <LoginForm @login="onLogin" />
+            <LoginForm @login="user.onLogin" />
           </v-col>
           <v-col cols="10" md="3">
-            <h3 class="display-2 text-center text-white pa-2">Don't have an Account yet?</h3>
+            <h3 class="display-2 text-center text-white pa-2">Don't have an account yet?</h3>
             <p class="display-2 text-center text-white font-weight-thin font-italic pa-1">
               Let's get you all set up so you can start taking place in that great experiance
             </p>
-            <SignupForm @signup="onSignup" />
+            <SignupForm @signup="user.onRegisterAccount" />
           </v-col>
         </v-row>
       </v-container>
+      <v-snackbar v-model="snackbar.state.isVisible" color="red-darken-2">
+        {{ snackbar.state.errorMsg }}
+      </v-snackbar>
     </div>
   </v-img>
 </template>
@@ -41,18 +44,20 @@
 import SignupForm from '@/components/SignupForm.vue'
 import LoginForm from '@/components/LoginForm.vue'
 import { STAR_WARS_BG } from '@/constants/common.js'
+import { useRouter } from 'vue-router'
+import useUser from '@/composables/useUser.js'
+import useSnackbar from '@/composables/useSnackbar'
 
 export default {
   components: {
     SignupForm,
     LoginForm
   },
-  methods: {
-    onSignup(userData) {
-      console.log('User signed up with data:', userData)
-    },
-    onLogin(userData) {
-      console.log('User logged in with data:', userData)
+  setup() {
+    return {
+      router: useRouter(),
+      user: useUser(),
+      snackbar: useSnackbar()
     }
   },
   data() {

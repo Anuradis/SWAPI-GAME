@@ -2,14 +2,8 @@
   <v-card>
     <v-card-title>Sign Up</v-card-title>
     <v-card-text>
-      <v-form @submit.prevent="submitForm">
-        <v-text-field
-          v-model="formData.username"
-          label="Username"
-          required
-          :rules="[(v) => !!v || 'Username is required']"
-        ></v-text-field>
-        <v-text-field
+      <v-form ref="form" @submit.prevent="submitForm"
+        ><v-text-field
           v-model="formData.email"
           label="Email"
           type="email"
@@ -55,8 +49,9 @@ export default {
     }
   },
   methods: {
-    submitForm() {
-      if (this.$refs.form.validate()) {
+    async submitForm() {
+      const isValid = await this.$refs.form.validate()
+      if (isValid.valid) {
         this.$emit('signup', this.formData)
       }
     }

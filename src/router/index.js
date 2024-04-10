@@ -1,17 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Game from '@/views/GameView.vue'
-import Login from '@/views/LoginView.vue'
+import { getAuth } from 'firebase/auth'
 
 const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: () => import('@/views/LoginView.vue')
   },
   {
     path: '/game',
     name: 'Game',
-    component: Game
+    component: () => import('@/views/GameView.vue'),
+    meta: {
+      requresAuth: true
+    }
   }
 ]
 
@@ -20,8 +22,16 @@ const router = createRouter({
   history: createWebHistory()
 })
 
-// Add a navigation guard to automatically push to /game on init
+// Add a navigation guard to automatically push to /login on init
 router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requresAuth)) {
+    if (getAuth().currentUser) {
+      next()
+    } else {
+      alert("you don't have access!")
+      next('/')
+    }
+  }
   if (to.path === '/') {
     next('/login')
   } else {

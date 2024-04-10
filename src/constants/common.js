@@ -6,3 +6,8 @@ export const STAR_WARS_BG = {
   },
   title: 'Star Wars background image'
 }
+
+export const SWAPI_TYPES = Object.freeze({
+  people: 'people',
+  starships: 'starships'
+})

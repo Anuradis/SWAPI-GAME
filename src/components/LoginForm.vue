@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>Login</v-card-title>
     <v-card-text>
-      <v-form @submit.prevent="submitForm">
+      <v-form ref="loginForm" @submit.prevent="submitForm">
         <v-text-field
           v-model="formData.email"
           label="Email"
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     submitForm() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.loginForm.validate()) {
         this.$emit('login', this.formData)
       }
     }
