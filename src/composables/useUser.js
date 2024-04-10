@@ -1,6 +1,5 @@
-import { reactive, onMounted } from 'vue'
+import { reactive } from 'vue'
 import {
-  onAuthStateChanged,
   getAuth,
   signOut,
   signInWithEmailAndPassword,
@@ -21,13 +20,6 @@ export default function useUser() {
   const router = useRouter()
   const snackbar = useSnackbar()
 
-  onMounted(() => {
-    setAuth(getAuth())
-    onAuthStateChanged(state.auth, (user) => {
-      user ? setIsLoggedIn(true) : setIsLoggedIn(false)
-    })
-  })
-
   // === Setters ===
   const setCurrentUser = (currentUser) => {
     state.currentUser = currentUser
@@ -39,12 +31,16 @@ export default function useUser() {
 
   const setAuth = (auth) => {
     state.auth = auth
+    state.currentUser = setCurrentUser(auth?.currentUser || null)
   }
 
   // === Methods ===
+
   const onRegisterAccount = async (userData) => {
     try {
-      await createUserWithEmailAndPassword(getAuth(), userData.email, userData.password)
+      setAuth(getAuth())
+      await createUserWithEmailAndPassword(state.auth, userData.email, userData.password)
+      setIsLoggedIn(true)
       router.push({ path: 'game' })
     } catch (err) {
       snackbar.showSnackbar(err.code)
@@ -52,20 +48,21 @@ export default function useUser() {
   }
 
   const onLogin = async (userData) => {
-    console.log(userData, 'userData')
     try {
-      const auth = getAuth()
-      await signInWithEmailAndPassword(auth, userData.email, userData.password)
+      setAuth(getAuth())
+      await signInWithEmailAndPassword(state.auth, userData.email, userData.password)
+      setIsLoggedIn(true)
+
       router.push({ path: 'game' })
     } catch (err) {
-      console.log(err, 'err before show snackbar')
       snackbar.showSnackbar(err.code)
     }
   }
 
   const onSignOut = async () => {
-    console.log('on signOut executed')
     await signOut(state.auth)
+    setIsLoggedIn(false)
+    setAuth(null)
     router.push('/')
   }
 
