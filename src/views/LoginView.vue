@@ -47,6 +47,7 @@ import { STAR_WARS_BG } from '@/constants/common.js'
 import { useRouter } from 'vue-router'
 import useUser from '@/composables/useUser.js'
 import useSnackbar from '@/composables/useSnackbar'
+import useFirestore from '@/composables/useFirestore'
 
 export default {
   components: {
@@ -57,12 +58,18 @@ export default {
     return {
       router: useRouter(),
       user: useUser(),
-      snackbar: useSnackbar()
+      snackbar: useSnackbar(),
+      firestore: useFirestore()
     }
   },
   data() {
     return {
       STAR_WARS_BG
+    }
+  },
+  async mounted() {
+    if (this.firestore.state.db) {
+      await this.firestore.loadGameResults()
     }
   }
 }

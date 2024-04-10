@@ -15,6 +15,7 @@
         ></v-text-field>
         <v-text-field
           v-model="formData.password"
+          autocomplate="on"
           label="Password"
           type="password"
           required
@@ -22,6 +23,7 @@
         ></v-text-field>
         <v-text-field
           v-model="formData.confirmPassword"
+          autocomplate="on"
           label="Confirm Password"
           type="password"
           required

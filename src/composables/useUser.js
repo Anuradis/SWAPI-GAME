@@ -7,7 +7,7 @@ import {
 } from 'firebase/auth'
 // Composables
 import { useRouter } from 'vue-router'
-import useSnackbar from '@/composables/useSnackbar.js'
+import useSnackbar from '@/composables/useSnackbar'
 
 const state = reactive({
   currentUser: null,

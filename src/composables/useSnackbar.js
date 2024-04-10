@@ -28,11 +28,6 @@ export default function useSnackbar() {
   const showSnackbar = (errorMsg) => {
     setIsVisible(true)
     setErrorMsg(errorMsg)
-
-    // setTimeout(() => {
-    //   setIsVisible(false)
-    //   setErrorMsg('')
-    // }, 4000)
   }
 
   return {
