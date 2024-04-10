@@ -1,5 +1,7 @@
 import Player from '@/models/Player'
-
+/**
+ * Game model, includes core fields only for presentation purpose
+ */
 export default class Game {
   player1 = null
   player2 = null
