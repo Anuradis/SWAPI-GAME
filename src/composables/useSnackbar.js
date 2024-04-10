@@ -6,13 +6,9 @@ const state = reactive({
 })
 
 export default function useSnackbar() {
-  // === Composables ===
-  //   const router = useRouter()
-
   // === Setters ===
   const setIsVisible = (isVisible) => {
     state.isVisible = isVisible
-    console.log(state, 'state')
   }
 
   const setErrorMsg = (errorMsg) => {
