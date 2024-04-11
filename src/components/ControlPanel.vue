@@ -24,29 +24,6 @@
             label="Player Nickname"
             dense
           ></v-text-field>
-          <v-btn
-            :disabled="game.settingsSaved.value || game.alreadyPlayed.value"
-            @click="game.onRemovePlayer(index)"
-            icon
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-col>
-        <v-col v-if="players.length < 2" class="d-flex align-center">
-          <v-text-field
-            v-model="playerNickname"
-            :disabled="game.settingsSaved.value || game.alreadyPlayed.value"
-            label="Player Nickname"
-            dense
-          ></v-text-field>
-          <v-btn
-            :variant="text"
-            icon="mdi-plus"
-            size="small"
-            @click="game.onAddPlayer"
-            :disabled="!playerNickname.trim()"
-          >
-          </v-btn>
         </v-col>
       </v-row>
 
