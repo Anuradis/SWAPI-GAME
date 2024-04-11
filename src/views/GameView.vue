@@ -31,7 +31,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <ResultList :results="results" />
+      <ResultList :results="firestore.state.results" />
     </div>
   </v-img>
 </template>
@@ -71,7 +71,6 @@ export default {
     if (!this.firestore.state.results.length) {
       await this.firestore.loadGameResults()
     }
-    this.results = this.firestore.state.results
   }
 }
 </script>

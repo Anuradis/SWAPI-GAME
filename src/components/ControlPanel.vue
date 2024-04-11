@@ -47,7 +47,7 @@
         block
         @click="game.onSave"
       >
-        Publish Result
+        Publish/New Game
       </v-btn>
     </v-card-text>
   </v-card>

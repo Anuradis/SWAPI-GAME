@@ -1,14 +1,27 @@
 # SWAPI-GAME
 
-This template should help get you started developing with Vue 3 in Vite.
+SWAPI-GAME App 1.0 
 
-## Recommended IDE Setup
+The game features two main views: LoginView and GameView.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+LoginView:
+To start the game, users must register with an email address and password. For each subsequent session, users simply log in with the previously created account. After successful authentication, the user is transferred to the GameView.
 
-## Customize configuration
+GameView:
+Information Bar: At the top, it displays the logged-in user's information and the counter status of the current game.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Control Panel: Users can select the type of resource to be drawn (people or spaceships) and input usernames. Usernames are registered when scores are entered into the database.
+
+The game: involves selecting random cards featuring Star Wars characters whenever the user selects "Play" or "Rematch". Currently, two types of resources are supported: people and spaceships. Each resource type has a different decisive attribute for winning—crew size for spaceships and mass for people. The player who selects the higher-value card wins the round.
+
+Players have the option to play multiple rounds. Results are saved only when the 'Publish/New Game' button is pressed. This action resets the game state (including any usernames entered), allowing users to start afresh and battle for their desired outcome once more.
+
+# Description
+
+App implemented in minimal way, I've mainly focused on structuring codebase in odrer to present code style and best practices if it would be real world project. 
+General concept was achieved but due to limited time some I didn't implement all I wanted, therefore I will leave here my proposals/imporvements.
+
+- WILL BE ADDED BEFORE FINISHING TASK
 
 ## Project Setup
 

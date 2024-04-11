@@ -31,7 +31,7 @@ export default function useFirestore() {
   const updateGameResults = async (payload) => {
     try {
       const parsedPayload = GameResult.toAPI(payload)
-      await FirebaseService.updateResult(state.db, parsedPayload)
+      await FirebaseService.updateResultsCollection(state.db, parsedPayload)
     } catch (err) {
       snackbar.showSnackbar(err)
       console.error(err)
