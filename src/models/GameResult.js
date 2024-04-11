@@ -17,6 +17,6 @@ export default class GameResult {
 
   toAPI(apiGame) {
     this.player1 = Player.toAPI(apiGame.player1)
-    this.player1 = Player.toAPI(apiGame.player1)
+    this.player2 = Player.toAPI(apiGame.player2)
   }
 }

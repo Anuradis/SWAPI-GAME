@@ -1,10 +1,10 @@
 <template>
   <v-img
     :src="STAR_WARS_BG.src"
-    :title="STAR_WARS_BG.title"
+    :alt="STAR_WARS_BG.title"
     cover
     class="overflow"
-    gradient="to top right, rgba(0,0,0,.9), rgba(0,0,0,.5)"
+    :gradient="GRADIENT_DEF"
   >
     <div class="scrollable-container">
       <v-container fluid justify="center" align="center" pa-0>
@@ -45,9 +45,9 @@
 import SignupForm from '@/components/SignupForm.vue'
 import LoginForm from '@/components/LoginForm.vue'
 import ResultList from '@/components/ResultList.vue'
-import { STAR_WARS_BG } from '@/constants/common.js'
+import { STAR_WARS_BG, GRADIENT_DEF } from '@/constants/common'
 import { useRouter } from 'vue-router'
-import useUser from '@/composables/useUser.js'
+import useUser from '@/composables/useUser'
 import useSnackbar from '@/composables/useSnackbar'
 import useFirestore from '@/composables/useFirestore'
 
@@ -67,7 +67,8 @@ export default {
   },
   data() {
     return {
-      STAR_WARS_BG
+      STAR_WARS_BG,
+      GRADIENT_DEF
     }
   },
   async mounted() {

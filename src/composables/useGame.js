@@ -1,14 +1,33 @@
-import { reactive, readonly } from 'vue'
+import { reactive, readonly, computed } from 'vue'
 import SwapiService from '@/services/SwapiService'
 import useSnackbar from '@/composables/useSnackbar'
+import { INITIAL_PLAYERS, STARSHIPS_RULES_DEF, PEOPLE_RULES_DEF } from '@/constants/common'
+import { generateRandomNumber, getWinningCardIndex } from '@/utils/common'
+
 const state = reactive({
   hash: '',
   loading: false,
   cards: [],
-  //can't see uid in SWAPI therefore name used;/
-  winningCardName: null
+  //can't see uid in SWAPI therefore name used
+  winningCardIndex: null,
+  controlPanel: {
+    settingsSaved: false,
+    isStarshipRace: false,
+    players: INITIAL_PLAYERS,
+    playerNickname: ''
+  }
 })
 
+const currentGameResult = reactive({
+  player1: {
+    nickname: state.controlPanel.players[0].nickname,
+    score: 0
+  },
+  player2: {
+    nickname: state.controlPanel.players[1].nickname,
+    score: 0
+  }
+})
 export default function useGame() {
   // === Composables ===
   const snackbar = useSnackbar()
@@ -29,6 +48,36 @@ export default function useGame() {
     state.winningCardName = winningCardName
   }
 
+  const setIsStarshipRace = (isStarshipRace) => {
+    state.controlPanel.isStarshipRace = isStarshipRace
+  }
+
+  const setPlayers = (players) => {
+    state.controlPanel.players = players
+  }
+
+  const setPlayerNickname = (playerNickname) => {
+    state.controlPanel.playerNickname = playerNickname
+  }
+
+  const setSettingsSaved = (settingsSaved) => {
+    state.controlPanel.settingsSaved = settingsSaved
+  }
+
+  // === Computed
+  const resourceTypeRules = computed(() => {
+    return state.controlPanel.isStarshipRace ? STARSHIPS_RULES_DEF : PEOPLE_RULES_DEF
+  })
+
+  const settingsSaved = computed(() => {
+    return state.controlPanel.settingsSaved
+  })
+
+  const alreadyPlayed = computed(() => {
+    return state.cards.length
+  })
+
+  // === Methos ====
   /**
    * Function loads random cards for players whenever play button used
    *
@@ -56,13 +105,81 @@ export default function useGame() {
     }
   }
 
+  /**
+   * Function updates game result, if winning index -1 there is no winner(draw)
+   *
+   * @param {winningIndex} Number
+   */
+  const updateGameResult = (winningIndex) => {
+    if (winningIndex === 0) {
+      currentGameResult.player1.score += 1
+    } else if (winningIndex === 1) {
+      currentGameResult.player2.score += 1
+    } else {
+      //Todo show confirmation on draw
+    }
+  }
+
+  const onPlay = async () => {
+    const firstRandomNumber = generateRandomNumber(
+      resourceTypeRules.value.minNumber,
+      resourceTypeRules.value.maxNumber
+    )
+
+    const secondRandomNumber = generateRandomNumber(
+      resourceTypeRules.value.minNumber,
+      resourceTypeRules.value.maxNumber
+    )
+
+    await loadCards(resourceTypeRules.value.type, firstRandomNumber, secondRandomNumber)
+
+    state.winningCardIndex = getWinningCardIndex(state.cards, resourceTypeRules.value.compareAttr)
+
+    updateGameResult(state.winningCardIndex)
+  }
+
+  const onSaveSettings = () => {
+    if (settingsSaved.value) {
+      setSettingsSaved(false)
+    } else {
+      setSettingsSaved(true)
+    }
+
+    console.log(state.controlPanel.settingsSaved, 'settings saved')
+    // Implement logic to save settings here
+  }
+
+  const onAddPlayer = () => {
+    if (state.controlPanel.players.length < 2 && state.controlPanel.playerNickname.trim()) {
+      state.controlPanel.players.push({ nickname: state.controlPanel.playerNickname.trim() })
+      state.controlPanel.playerNickname = '' // Clear input after adding player
+    }
+  }
+
+  const onRemovePlayer = (index) => {
+    state.controlPanel.players.splice(index, 1)
+  }
+
   return {
     // === readonly state mutable only using setters ===
     state: readonly(state),
+    currentGameResult,
     // === Setters ===
     setCards,
     setWinningCardName,
+    setIsStarshipRace,
+    setPlayers,
+    setPlayerNickname,
+    setSettingsSaved,
+    // === Computed ===
+    alreadyPlayed,
+    resourceTypeRules,
+    settingsSaved,
     // === Methods ===
-    loadCards
+    loadCards,
+    onPlay,
+    onSaveSettings,
+    onAddPlayer,
+    onRemovePlayer
   }
 }
