@@ -9,7 +9,6 @@
         :disabled="game.settingsSaved.value"
         :label="'Race Type: ' + (isStarshipRace ? 'Starship' : 'People')"
       ></v-switch>
-
       <!-- Adding Players -->
       <v-row>
         <v-col
@@ -26,12 +25,11 @@
           ></v-text-field>
         </v-col>
       </v-row>
-
       <!-- Save Settings Button -->
       <v-btn class="mb-5 mt-5" block @click="game.onSaveSettings">
         {{ game.settingsSaved.value ? 'Edit Settings' : 'Save Settings' }}
       </v-btn>
-
+      <!-- Play Button -->
       <v-btn
         :disabled="!game.settingsSaved.value"
         secondary
@@ -40,6 +38,16 @@
         @click="game.onPlay"
       >
         {{ game.state.cards.length ? 'Re-match' : 'Play' }}
+      </v-btn>
+      <!-- Save Button -->
+      <v-btn
+        class="mb-5 mt-5"
+        :disabled="!game.settingsSaved.value || !game.state.cards.length"
+        secondary
+        block
+        @click="game.onSave"
+      >
+        Publish Result
       </v-btn>
     </v-card-text>
   </v-card>

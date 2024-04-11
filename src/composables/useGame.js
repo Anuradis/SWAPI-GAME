@@ -1,11 +1,11 @@
 import { reactive, readonly, computed } from 'vue'
 import SwapiService from '@/services/SwapiService'
-import useSnackbar from '@/composables/useSnackbar'
 import { INITIAL_PLAYERS, STARSHIPS_RULES_DEF, PEOPLE_RULES_DEF } from '@/constants/common'
 import { generateRandomNumber, getWinningCardIndex } from '@/utils/common'
+import useSnackbar from '@/composables/useSnackbar'
+import useFirestore from '@/composables/useFirestore'
 
 const state = reactive({
-  hash: '',
   loading: false,
   cards: [],
   //can't see uid in SWAPI therefore name used
@@ -31,6 +31,7 @@ const currentGameResult = reactive({
 export default function useGame() {
   // === Composables ===
   const snackbar = useSnackbar()
+  const firestore = useFirestore()
 
   // === Setters ===
   /**
@@ -62,6 +63,13 @@ export default function useGame() {
 
   const setSettingsSaved = (settingsSaved) => {
     state.controlPanel.settingsSaved = settingsSaved
+  }
+
+  const clearCurrentResult = () => {
+    currentGameResult.player1.score = 0
+    currentGameResult.player2.score = 0
+    state.cards = []
+    state.winningCardIndex = -1
   }
 
   // === Computed
@@ -138,6 +146,12 @@ export default function useGame() {
     updateGameResult(state.winningCardIndex)
   }
 
+  const onSave = async () => {
+    await firestore.updateGameResults(currentGameResult)
+    await firestore.loadGameResults()
+    clearCurrentResult()
+  }
+
   const onSaveSettings = () => {
     if (settingsSaved.value) {
       setSettingsSaved(false)
@@ -171,6 +185,7 @@ export default function useGame() {
     setPlayers,
     setPlayerNickname,
     setSettingsSaved,
+    clearCurrentResult,
     // === Computed ===
     alreadyPlayed,
     resourceTypeRules,
@@ -178,6 +193,7 @@ export default function useGame() {
     // === Methods ===
     loadCards,
     onPlay,
+    onSave,
     onSaveSettings,
     onAddPlayer,
     onRemovePlayer

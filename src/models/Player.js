@@ -11,10 +11,10 @@ export default class Player {
     return new Player(apiPlayer)
   }
 
-  toAPI(apiPlayer) {
+  static toAPI(player) {
     return {
-      name: apiPlayer.name,
-      score: apiPlayer.score
+      name: player.nickname,
+      score: player.score
     }
   }
 }
