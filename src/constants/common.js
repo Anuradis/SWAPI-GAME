@@ -56,4 +56,13 @@ export const INITAL_CARDS_DEF = Object.freeze([
 ])
 
 export const GRADIENT_DEF = 'to top right, rgba(0,0,0,.9), rgba(0,0,0,.5)'
-export const INITIAL_PLAYERS = [{ nickname: 'player1' }, { nickname: 'CPU' }]
+export const INITIAL_PLAYERS = {
+  player1: {
+    nickname: 'Player 1',
+    score: 0
+  },
+  player2: {
+    nickname: 'CPU',
+    score: 0
+  }
+}

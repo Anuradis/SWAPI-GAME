@@ -20,11 +20,7 @@
 
           <v-col cols="12" md="4" v-for="(card, index) in game.state.cards" :key="index">
             <SwapiCard
-              :title="
-                index === 0
-                  ? game.state.controlPanel.players[0].nickname
-                  : game.state.controlPanel.players[1].nickname
-              "
+              :title="index === 0 ? game.player1Nickname.value : game.player2Nickname.value"
               :cardDetails="card"
               :winner="game.state.winningCardIndex === index"
             />

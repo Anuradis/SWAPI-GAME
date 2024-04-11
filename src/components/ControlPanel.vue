@@ -25,6 +25,18 @@
           ></v-text-field>
         </v-col>
       </v-row>
+      <v-text-field
+        v-model="player1Nickname"
+        :disabled="game.settingsSaved.value || game.alreadyPlayed.value"
+        label="Player 1 Nickname"
+        dense
+      ></v-text-field>
+      <v-text-field
+        v-model="player2Nickname"
+        :disabled="game.settingsSaved.value || game.alreadyPlayed.value"
+        label="Player 2 Nickname"
+        dense
+      ></v-text-field>
       <!-- Save Settings Button -->
       <v-btn class="mb-5 mt-5" block @click="game.onSaveSettings">
         {{ game.settingsSaved.value ? 'Edit Settings' : 'Save Settings' }}
@@ -69,19 +81,20 @@ export default {
       PEOPLE_RULES_DEF,
       STARSHIPS_RULES_DEF,
       isStarshipRace: this.game.state.controlPanel.isStarshipRace, // Switch button value for race type (false for 'People', true for 'Starship')
-      players: this.game.state.controlPanel.players, // Array to hold player data
-      playerNickname: this.game.state.controlPanel.playerNickname // Input field for player nickname
+      player1Nickname: this.game.player1Nickname.value,
+      player2Nickname: this.game.player2Nickname.value
     }
   },
   watch: {
     isStarshipRace(newVal) {
       this.game.setIsStarshipRace(newVal)
     },
-    players(newVal) {
-      this.game.setPlayers(newVal)
+    player1Nickname(newVal) {
+      console.log('prayers new val')
+      this.game.setPlayer1Nickname(newVal)
     },
-    playerNickname(newVal) {
-      this.game.setPlayerNickname(newVal)
+    player2Nickname(newVal) {
+      this.game.setPlayer2Nickname(newVal)
     }
   }
 }

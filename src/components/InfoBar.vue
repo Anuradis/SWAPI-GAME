@@ -10,12 +10,12 @@
       <v-toolbar-items class="pa-5 counter">
         <div class="mr-4">Counter:</div>
         <div class="mr-4">
-          {{ game.currentGameResult.player1.nickname }}:
-          <span> {{ game.currentGameResult.player1.score }}</span>
+          {{ game.player1Nickname.value }}:
+          <span> {{ game.state.controlPanel.currentGame.player1.score }}</span>
         </div>
         <div class="mr-4">
-          {{ game.currentGameResult.player2.nickname }}:
-          <span> {{ game.currentGameResult.player2.score }}</span>
+          {{ game.player2Nickname.value }}:
+          <span> {{ game.state.controlPanel.currentGame.player2.score }}</span>
         </div>
       </v-toolbar-items>
     </v-app-bar>

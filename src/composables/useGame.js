@@ -13,21 +13,19 @@ const state = reactive({
   controlPanel: {
     settingsSaved: false,
     isStarshipRace: false,
-    players: INITIAL_PLAYERS,
-    playerNickname: ''
+    currentGame: {
+      player1: {
+        nickname: INITIAL_PLAYERS.player1.nickname,
+        score: INITIAL_PLAYERS.player1.score
+      },
+      player2: {
+        nickname: INITIAL_PLAYERS.player2.nickname,
+        score: INITIAL_PLAYERS.player2.score
+      }
+    }
   }
 })
 
-const currentGameResult = reactive({
-  player1: {
-    nickname: state.controlPanel.players[0].nickname,
-    score: 0
-  },
-  player2: {
-    nickname: state.controlPanel.players[1].nickname,
-    score: 0
-  }
-})
 export default function useGame() {
   // === Composables ===
   const snackbar = useSnackbar()
@@ -45,20 +43,16 @@ export default function useGame() {
     state.cards = [firstPlayerCard, secondPlayerCard]
   }
 
-  const setWinningCardName = (winningCardName) => {
-    state.winningCardName = winningCardName
-  }
-
   const setIsStarshipRace = (isStarshipRace) => {
     state.controlPanel.isStarshipRace = isStarshipRace
   }
 
-  const setPlayers = (players) => {
-    state.controlPanel.players = players
+  const setPlayer1Nickname = (nickname) => {
+    state.controlPanel.currentGame.player1.nickname = nickname
   }
 
-  const setPlayerNickname = (playerNickname) => {
-    state.controlPanel.playerNickname = playerNickname
+  const setPlayer2Nickname = (nickname) => {
+    state.controlPanel.currentGame.player2.nickname = nickname
   }
 
   const setSettingsSaved = (settingsSaved) => {
@@ -66,8 +60,8 @@ export default function useGame() {
   }
 
   const clearCurrentResult = () => {
-    currentGameResult.player1.score = 0
-    currentGameResult.player2.score = 0
+    state.controlPanel.currentGame.player1.score = INITIAL_PLAYERS.player1.score
+    state.controlPanel.currentGame.player2.score = INITIAL_PLAYERS.player2.score
     state.cards = []
     state.winningCardIndex = -1
   }
@@ -83,6 +77,14 @@ export default function useGame() {
 
   const alreadyPlayed = computed(() => {
     return state.cards.length
+  })
+
+  const player1Nickname = computed(() => {
+    return state.controlPanel.currentGame.player1.nickname
+  })
+
+  const player2Nickname = computed(() => {
+    return state.controlPanel.currentGame.player2.nickname
   })
 
   // === Methos ====
@@ -103,8 +105,6 @@ export default function useGame() {
       ])
 
       setCards(firstPlayerCard, secondPlayerCard)
-      setWinningCardName()
-      console.log(state.cards, 'cards')
     } catch (err) {
       snackbar.showSnackbar(err)
       console.error(err)
@@ -120,9 +120,9 @@ export default function useGame() {
    */
   const updateGameResult = (winningIndex) => {
     if (winningIndex === 0) {
-      currentGameResult.player1.score += 1
+      state.controlPanel.currentGame.player1.score += 1
     } else if (winningIndex === 1) {
-      currentGameResult.player2.score += 1
+      state.controlPanel.currentGame.player2.score += 1
     } else {
       //Todo show confirmation on draw
     }
@@ -147,7 +147,7 @@ export default function useGame() {
   }
 
   const onSave = async () => {
-    await firestore.updateGameResults(currentGameResult)
+    await firestore.updateGameResults(state.controlPanel.currentGame)
     await firestore.loadGameResults()
     clearCurrentResult()
   }
@@ -158,44 +158,28 @@ export default function useGame() {
     } else {
       setSettingsSaved(true)
     }
-
-    console.log(state.controlPanel.settingsSaved, 'settings saved')
-    // Implement logic to save settings here
-  }
-
-  const onAddPlayer = () => {
-    if (state.controlPanel.players.length < 2 && state.controlPanel.playerNickname.trim()) {
-      state.controlPanel.players.push({ nickname: state.controlPanel.playerNickname.trim() })
-      state.controlPanel.playerNickname = '' // Clear input after adding player
-    }
-  }
-
-  const onRemovePlayer = (index) => {
-    state.controlPanel.players.splice(index, 1)
   }
 
   return {
     // === readonly state mutable only using setters ===
     state: readonly(state),
-    currentGameResult,
     // === Setters ===
     setCards,
-    setWinningCardName,
     setIsStarshipRace,
-    setPlayers,
-    setPlayerNickname,
+    setPlayer1Nickname,
+    setPlayer2Nickname,
     setSettingsSaved,
     clearCurrentResult,
     // === Computed ===
     alreadyPlayed,
     resourceTypeRules,
     settingsSaved,
+    player1Nickname,
+    player2Nickname,
     // === Methods ===
     loadCards,
     onPlay,
     onSave,
-    onSaveSettings,
-    onAddPlayer,
-    onRemovePlayer
+    onSaveSettings
   }
 }
