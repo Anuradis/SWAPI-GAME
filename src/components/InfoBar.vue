@@ -9,26 +9,35 @@
 
       <v-toolbar-items class="pa-5 counter">
         <div class="mr-4">Counter:</div>
-        <div class="mr-4">Player 1: <span>2</span></div>
-        <div class="mr-4">Player 2: <span>65</span></div>
+        <div class="mr-4">
+          {{ game.currentGameResult.player1.nickname }}:
+          <span> {{ game.currentGameResult.player1.score }}</span>
+        </div>
+        <div class="mr-4">
+          {{ game.currentGameResult.player2.nickname }}:
+          <span> {{ game.currentGameResult.player2.score }}</span>
+        </div>
       </v-toolbar-items>
     </v-app-bar>
   </v-layout>
 </template>
 
 <script>
-import useUser from '@/composables/useUser.js'
+import useUser from '@/composables/useUser'
+import useGame from '@/composables/useGame'
 
 export default {
   setup() {
     return {
-      user: useUser()
+      user: useUser(),
+      game: useGame()
     }
   },
   computed: {
     currentUser() {
       return this.user.state.auth.currentUser?.email
     }
-  }
+  },
+  mounted() {}
 }
 </script>
