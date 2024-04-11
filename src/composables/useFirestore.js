@@ -21,6 +21,7 @@ export default function useFirestore() {
       state.results = await FirebaseService.fetchGameResults(state.db)
     } catch (err) {
       snackbar.showSnackbar(err)
+      console.err(err)
     }
   }
 

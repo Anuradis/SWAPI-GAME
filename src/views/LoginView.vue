@@ -33,6 +33,7 @@
           </v-col>
         </v-row>
       </v-container>
+      <ResultList :results="firestore.state.results" />
       <v-snackbar v-model="snackbar.state.isVisible" color="red-darken-2">
         {{ snackbar.state.errorMsg }}
       </v-snackbar>
@@ -43,6 +44,7 @@
 <script>
 import SignupForm from '@/components/SignupForm.vue'
 import LoginForm from '@/components/LoginForm.vue'
+import ResultList from '@/components/ResultList.vue'
 import { STAR_WARS_BG } from '@/constants/common.js'
 import { useRouter } from 'vue-router'
 import useUser from '@/composables/useUser.js'
@@ -52,7 +54,8 @@ import useFirestore from '@/composables/useFirestore'
 export default {
   components: {
     SignupForm,
-    LoginForm
+    LoginForm,
+    ResultList
   },
   setup() {
     return {

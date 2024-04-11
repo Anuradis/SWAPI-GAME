@@ -16,7 +16,8 @@ export default class Person {
 
   constructor(apiPerson) {
     this.resourceType = PEOPLE_RULES_DEF.type
-    this.color = this.name = PEOPLE_RULES_DEF.cardColor
+    this.color = PEOPLE_RULES_DEF.cardColor
+    this.name = apiPerson.name
     this.height = apiPerson.height
     this.mass = apiPerson.mass
     this.hairColor = apiPerson.hair_color
