@@ -90,7 +90,6 @@ export default {
       this.game.setIsStarshipRace(newNickname)
     },
     player1Nickname(newNickname) {
-      console.log('prayers new val')
       this.game.setPlayer1Nickname(newNickname)
     },
     player2Nickname(newNickname) {
