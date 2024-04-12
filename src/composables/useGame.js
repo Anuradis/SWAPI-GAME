@@ -35,9 +35,9 @@ export default function useGame() {
   /**
    * Sets fetched and mapped data as cards, order is crucial for scoring sheet
    *
-   * @param {resourceType} String - SWAPI resource type
-   * @param {firstPlayerCard} Number - card fetched based on first user random number
-   * @param {secondPlayerCard} Number - card fetched based on second user random number
+   * @param {String} resourceType - SWAPI resource type
+   * @param {Number} firstPlayerCard  - card fetched based on first user random number
+   * @param {Number} secondPlayerCard - card fetched based on second user random number
    */
   const setCards = (firstPlayerCard, secondPlayerCard) => {
     state.cards = [firstPlayerCard, secondPlayerCard]
@@ -59,7 +59,7 @@ export default function useGame() {
     state.controlPanel.settingsSaved = settingsSaved
   }
 
-  const clearCurrentResult = () => {
+  const clearCurrentGameResult = () => {
     state.controlPanel.currentGame.player1.score = INITIAL_PLAYERS.player1.score
     state.controlPanel.currentGame.player2.score = INITIAL_PLAYERS.player2.score
     state.cards = []
@@ -88,12 +88,27 @@ export default function useGame() {
   })
 
   // === Methos ====
+
+  /**
+   * Function updates game result, if winning index -1 there is no winner(draw)
+   *
+   * @param {Number} winningIndex
+   */
+  const updateGameResult = (winningIndex) => {
+    if (winningIndex === 0) {
+      state.controlPanel.currentGame.player1.score += 1
+    } else if (winningIndex === 1) {
+      state.controlPanel.currentGame.player2.score += 1
+    }
+    //Draw - no winner
+  }
+
   /**
    * Function loads random cards for players whenever play button used
    *
-   * @param {resourceType} String - SWAPI resource type
-   * @param {firstRandomNumber} Number - random number of resource for 1-st player
-   * @param {secondRandomNumber} Number - random number of resource for 2-nd player
+   * @param {String} resourceType  - SWAPI resource type
+   * @param {Number} firstRandomNumber - random number of resource for 1-st player
+   * @param {Number} secondRandomNumber  - random number of resource for 2-nd player
    */
   const loadCards = async (resourceType, firstRandomNumber, secondRandomNumber) => {
     try {
@@ -110,21 +125,6 @@ export default function useGame() {
       console.error(err)
     } finally {
       state.loading = false
-    }
-  }
-
-  /**
-   * Function updates game result, if winning index -1 there is no winner(draw)
-   *
-   * @param {winningIndex} Number
-   */
-  const updateGameResult = (winningIndex) => {
-    if (winningIndex === 0) {
-      state.controlPanel.currentGame.player1.score += 1
-    } else if (winningIndex === 1) {
-      state.controlPanel.currentGame.player2.score += 1
-    } else {
-      //Todo show confirmation on draw
     }
   }
 
@@ -149,7 +149,7 @@ export default function useGame() {
   const onSave = async () => {
     await firestore.updateGameResults(state.controlPanel.currentGame)
     await firestore.loadGameResults()
-    clearCurrentResult()
+    clearCurrentGameResult()
   }
 
   const onSaveSettings = () => {
@@ -169,7 +169,7 @@ export default function useGame() {
     setPlayer1Nickname,
     setPlayer2Nickname,
     setSettingsSaved,
-    clearCurrentResult,
+    clearCurrentGameResult,
     // === Computed ===
     alreadyPlayed,
     resourceTypeRules,
@@ -177,6 +177,7 @@ export default function useGame() {
     player1Nickname,
     player2Nickname,
     // === Methods ===
+    updateGameResult,
     loadCards,
     onPlay,
     onSave,

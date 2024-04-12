@@ -27,7 +27,7 @@
           <v-col cols="10" md="3">
             <h3 class="display-2 text-center text-white pa-2">Don't have an account yet?</h3>
             <p class="display-2 text-center text-white font-weight-thin font-italic pa-1">
-              Let's get you all set up so you can start taking place in that great experiance
+              Let's get you all set up so you can start taking place in that great experience
             </p>
             <SignupForm @signup="user.onRegisterAccount" />
           </v-col>
