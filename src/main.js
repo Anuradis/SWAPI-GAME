@@ -44,6 +44,4 @@ const vuetify = createVuetify({
 app.use(router)
 app.use(vuetify)
 
-//Need to wait until ready as route params not available on created/setup while using vue-router-4
-await router.isReady()
 app.mount('#app')
