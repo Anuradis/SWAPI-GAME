@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { PEOPLE_RULES_DEF } from '@/constants/common'
 import Starship from '@/models/Starship'
 import Person from '@/models/Person'
+import { PEOPLE_RULES_DEF } from '@/constants/common'
 
 export default {
   async fetchSWAPIByResourceType(type, number) {

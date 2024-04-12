@@ -2,6 +2,7 @@ import { reactive, readonly } from 'vue'
 import FirebaseService from '@/services/FirebaseService'
 import GameResult from '@/models/GameResult'
 import useSnackbar from '@/composables/useSnackbar'
+
 const state = reactive({
   db: null,
   collectionRef: null,
@@ -27,7 +28,6 @@ export default function useFirestore() {
     }
   }
 
-  //Todo continue here
   const updateGameResults = async (payload) => {
     try {
       const parsedPayload = GameResult.toAPI(payload)

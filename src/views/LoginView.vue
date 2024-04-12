@@ -75,16 +75,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.scrollable-container {
-  height: 100vh;
-  overflow: auto;
-}
-
-.overflow {
-  height: 100vh;
-  border: 3px;
-  box-sizing: border-box;
-}
-</style>

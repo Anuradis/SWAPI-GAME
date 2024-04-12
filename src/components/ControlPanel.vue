@@ -81,20 +81,20 @@ export default {
       PEOPLE_RULES_DEF,
       STARSHIPS_RULES_DEF,
       isStarshipRace: this.game.state.controlPanel.isStarshipRace, // Switch button value for race type (false for 'People', true for 'Starship')
-      player1Nickname: this.game.player1Nickname.value,
-      player2Nickname: this.game.player2Nickname.value
+      player1Nickname: this.game.player1Nickname.value, // Player 1 nickname input field
+      player2Nickname: this.game.player2Nickname.value // Player 2 nickname input field
     }
   },
   watch: {
-    isStarshipRace(newVal) {
-      this.game.setIsStarshipRace(newVal)
+    isStarshipRace(newNickname) {
+      this.game.setIsStarshipRace(newNickname)
     },
-    player1Nickname(newVal) {
+    player1Nickname(newNickname) {
       console.log('prayers new val')
-      this.game.setPlayer1Nickname(newVal)
+      this.game.setPlayer1Nickname(newNickname)
     },
-    player2Nickname(newVal) {
-      this.game.setPlayer2Nickname(newVal)
+    player2Nickname(newNickname) {
+      this.game.setPlayer2Nickname(newNickname)
     }
   }
 }

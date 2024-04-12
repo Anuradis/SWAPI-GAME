@@ -1,6 +1,6 @@
 # SWAPI-GAME
 
-SWAPI-GAME App 1.0 
+SWAPI-GAME App 1.0
 
 The game features two main views: LoginView and GameView.
 
@@ -18,10 +18,15 @@ Players have the option to play multiple rounds. Results are saved only when the
 
 # Description
 
-App implemented in minimal way, I've mainly focused on structuring codebase in odrer to present code style and best practices if it would be real world project. 
-General concept was achieved but due to limited time some I didn't implement all I wanted, therefore I will leave here my proposals/imporvements.
+App implemented in minimal way, entire work was limited to 3 days. I've mainly focused on structuring codebase in order to present code style and best practices if it would be real world project.
+General concept was achieved but due to limited time I didn't implement all I wanted, therefore I will leave here my proposals/imporvements.
 
-- WILL BE ADDED BEFORE FINISHING TASK
+- Memo function to and state to keep stored values of function execution    with already used params
+- Define more unit and e2e tests (only crucial implemented)
+- JSDocs more can be added (crucial functions commented)
+- Styling of website is not bad as for time spent, but it's definetally not polished up
+- Add debounce to inputs
+
 
 ## Project Setup
 

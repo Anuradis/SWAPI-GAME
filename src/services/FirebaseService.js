@@ -1,6 +1,6 @@
 import { collection, getDocs, doc, setDoc } from 'firebase/firestore'
-import GameResult from '@/models/GameResult'
 import { sortByScoreDifference } from '@/utils/common'
+import GameResult from '@/models/GameResult'
 
 export default {
   async fetchGameResults(db) {

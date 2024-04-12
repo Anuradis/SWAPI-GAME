@@ -38,8 +38,8 @@ import InfoBar from '@/components/InfoBar.vue'
 import ControlPanel from '@/components/ControlPanel.vue'
 import ResultList from '@/components/ResultList.vue'
 import useGame from '@/composables/useGame'
-import { STAR_WARS_BG, SETTINGS_CARD, GRADIENT_DEF } from '@/constants/common'
 import useFirestore from '@/composables/useFirestore'
+import { STAR_WARS_BG, SETTINGS_CARD, GRADIENT_DEF } from '@/constants/common'
 
 export default {
   components: {
@@ -48,7 +48,6 @@ export default {
     SwapiCard,
     ResultList
   },
-  methods: {},
   setup() {
     return {
       game: useGame(),
@@ -70,16 +69,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.scrollable-container {
-  height: 100vh;
-  overflow: auto;
-}
-
-.overflow {
-  height: 100vh;
-  border: 3px;
-  box-sizing: border-box;
-}
-</style>

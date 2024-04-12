@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-app-bar color="primary" prominent>
-      <v-toolbar-title v-if="user.state.isLoggedIn">
+      <v-toolbar-title v-if="user.isLoggedIn.value">
         Logged in:
         <span data-cy="signed-in-user-email">{{ currentUser }}</span>
         <v-btn data-cy="signout" @click="user.onSignOut">Sign out</v-btn>
@@ -35,9 +35,8 @@ export default {
   },
   computed: {
     currentUser() {
-      return this.user.state.auth.currentUser?.email
+      return this.user.state.currentUser?.email
     }
-  },
-  mounted() {}
+  }
 }
 </script>

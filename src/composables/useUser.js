@@ -1,4 +1,4 @@
-import { reactive, readonly } from 'vue'
+import { reactive, readonly, computed } from 'vue'
 import {
   getAuth,
   signOut,
@@ -11,7 +11,6 @@ import useSnackbar from '@/composables/useSnackbar'
 
 const state = reactive({
   currentUser: null,
-  isLoggedIn: false,
   auth: null
 })
 
@@ -25,14 +24,14 @@ export default function useUser() {
     state.currentUser = currentUser
   }
 
-  const setIsLoggedIn = (isLoggedIn) => {
-    state.isLoggedIn = isLoggedIn
-  }
-
   const setAuth = (auth) => {
     state.auth = auth
     state.currentUser = setCurrentUser(auth?.currentUser || null)
   }
+
+  const isLoggedIn = computed(() => {
+    return !!state.currentUser
+  })
 
   // === Methods ===
 
@@ -40,7 +39,6 @@ export default function useUser() {
     try {
       setAuth(getAuth())
       await createUserWithEmailAndPassword(state.auth, userData.email, userData.password)
-      setIsLoggedIn(true)
       router.push({ path: 'game' })
     } catch (err) {
       snackbar.showSnackbar(err.code)
@@ -51,7 +49,6 @@ export default function useUser() {
     try {
       setAuth(getAuth())
       await signInWithEmailAndPassword(state.auth, userData.email, userData.password)
-      setIsLoggedIn(true)
 
       router.push({ path: 'game' })
     } catch (err) {
@@ -61,7 +58,6 @@ export default function useUser() {
 
   const onSignOut = async () => {
     await signOut(state.auth)
-    setIsLoggedIn(false)
     setAuth(null)
     router.push('/')
   }
@@ -71,6 +67,8 @@ export default function useUser() {
     state: readonly(state),
     // === Setters ===
     setCurrentUser,
+    // === Computed ===
+    isLoggedIn,
     // === Methods ===
     onLogin,
     onSignOut,
