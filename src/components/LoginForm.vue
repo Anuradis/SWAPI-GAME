@@ -12,6 +12,7 @@
             (v) => !!v || 'Email is required',
             (v) => /.+@.+\..+/.test(v) || 'Email must be valid'
           ]"
+          data-cy="login-email"
         ></v-text-field>
         <v-text-field
           v-model="formData.password"
@@ -20,8 +21,9 @@
           type="password"
           required
           :rules="[(v) => !!v || 'Password is required']"
+          data-cy="login-password"
         ></v-text-field>
-        <v-btn type="submit" color="primary">Login</v-btn>
+        <v-btn data-cy="login-submit" type="submit" color="primary">Login</v-btn>
       </v-form>
     </v-card-text>
   </v-card>

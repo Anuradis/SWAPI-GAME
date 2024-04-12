@@ -3,8 +3,8 @@
     <v-app-bar color="primary" prominent>
       <v-toolbar-title v-if="user.state.isLoggedIn">
         Logged in:
-        <span>{{ currentUser }}</span>
-        <v-btn @click="user.onSignOut">Logout</v-btn>
+        <span data-cy="signed-in-user-email">{{ currentUser }}</span>
+        <v-btn data-cy="signout" @click="user.onSignOut">Sign out</v-btn>
       </v-toolbar-title>
 
       <v-toolbar-items class="pa-5 counter">
