@@ -24,6 +24,12 @@ export default function useSnackbar() {
   const showSnackbar = (errorMsg) => {
     setIsVisible(true)
     setErrorMsg(errorMsg)
+
+    // Native timeout vuetify prop for v-snackbar didn't seem to work
+    // Due to scope of task just a quick solution below
+    setTimeout(() => {
+      setIsVisible(false)
+    }, 4000)
   }
 
   return {

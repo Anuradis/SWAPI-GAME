@@ -34,9 +34,6 @@
         </v-row>
       </v-container>
       <ResultList :results="firestore.state.results" />
-      <v-snackbar v-model="snackbar.state.isVisible" color="red-darken-2">
-        {{ snackbar.state.errorMsg }}
-      </v-snackbar>
     </div>
   </v-img>
 </template>

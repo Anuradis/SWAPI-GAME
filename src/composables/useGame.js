@@ -1,9 +1,9 @@
 import { reactive, readonly, computed } from 'vue'
-import SwapiService from '@/services/SwapiService'
 import { INITIAL_PLAYERS, STARSHIPS_RULES_DEF, PEOPLE_RULES_DEF } from '@/constants/common'
 import { generateRandomNumber, getWinningCardIndex } from '@/utils/common'
 import useSnackbar from '@/composables/useSnackbar'
 import useFirestore from '@/composables/useFirestore'
+import SwapiService from '@/services/SwapiService'
 
 const state = reactive({
   loading: false,
@@ -121,8 +121,12 @@ export default function useGame() {
 
       setCards(firstPlayerCard, secondPlayerCard)
     } catch (err) {
-      snackbar.showSnackbar(err)
       console.error(err)
+      if (err?.response?.data.detail === 'Not found') {
+        // Egde case for starships, even trought there are 36 in API some seem not to be there
+        // If one of these picked inform user about it
+        snackbar.showSnackbar('Resource not found, try again')
+      }
     } finally {
       state.loading = false
     }
