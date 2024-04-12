@@ -3,7 +3,8 @@ import {
   getAuth,
   signOut,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  onAuthStateChanged
 } from 'firebase/auth'
 // Composables
 import { useRouter } from 'vue-router'
@@ -24,11 +25,6 @@ export default function useUser() {
     state.currentUser = currentUser
   }
 
-  const setAuth = (auth) => {
-    state.auth = auth
-    state.currentUser = setCurrentUser(auth?.currentUser || null)
-  }
-
   const isLoggedIn = computed(() => {
     return !!state.currentUser
   })
@@ -37,8 +33,7 @@ export default function useUser() {
 
   const onRegisterAccount = async (userData) => {
     try {
-      setAuth(getAuth())
-      await createUserWithEmailAndPassword(state.auth, userData.email, userData.password)
+      await createUserWithEmailAndPassword(getAuth(), userData.email, userData.password)
       router.push({ path: 'game' })
     } catch (err) {
       snackbar.showSnackbar(err.code)
@@ -47,8 +42,7 @@ export default function useUser() {
 
   const onLogin = async (userData) => {
     try {
-      setAuth(getAuth())
-      await signInWithEmailAndPassword(state.auth, userData.email, userData.password)
+      await signInWithEmailAndPassword(getAuth(), userData.email, userData.password)
 
       router.push({ path: 'game' })
     } catch (err) {
@@ -57,9 +51,26 @@ export default function useUser() {
   }
 
   const onSignOut = async () => {
-    await signOut(state.auth)
-    setAuth(null)
+    await signOut(getAuth())
     router.push('/')
+  }
+
+  /**
+   * Function needed in router as  if route visited directly auth wasn't available
+   * needed to remove old listener and resolve user
+   *
+   */
+  const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+      const removeListener = onAuthStateChanged(
+        getAuth(),
+        (user) => {
+          removeListener()
+          resolve(user)
+        },
+        reject
+      )
+    })
   }
 
   return {
@@ -72,6 +83,7 @@ export default function useUser() {
     // === Methods ===
     onLogin,
     onSignOut,
-    onRegisterAccount
+    onRegisterAccount,
+    getCurrentUser
   }
 }

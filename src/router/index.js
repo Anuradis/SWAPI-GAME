@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { getAuth } from 'firebase/auth'
 import useSnackbar from '@/composables/useSnackbar.js'
+import useUser from '@/composables/useUser'
 
 const routes = [
   {
@@ -23,10 +23,12 @@ const router = createRouter({
   history: createWebHistory()
 })
 
+const user = useUser()
+
 // Add a navigation guard to automatically push to /login on init
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requresAuth)) {
-    if (getAuth().currentUser) {
+    if (await user.getCurrentUser()) {
       next()
     } else {
       const snackbar = useSnackbar()
