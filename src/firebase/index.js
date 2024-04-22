@@ -1,9 +1,9 @@
 export const firebaseConfig = {
-  apiKey: 'AIzaSyAuiML2Qg8SUXXzXdgx0KYwK4gK6G8Hp6c',
-  authDomain: 'swapi-game-9cc7b.firebaseapp.com',
-  projectId: 'swapi-game-9cc7b',
-  storageBucket: 'swapi-game-9cc7b.appspot.com',
-  messagingSenderId: '831611290691',
-  appId: '1:831611290691:web:62c3b5030eb794a6ed40f6',
-  measurementId: 'G-7BYM73CT47'
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 }
