@@ -1,17 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Game from '@/views/GameView.vue'
-import Login from '@/views/LoginView.vue'
+import useSnackbar from '@/composables/useSnackbar.js'
+import useUser from '@/composables/useUser'
 
 const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: () => import('@/views/LoginView.vue')
   },
   {
     path: '/game',
     name: 'Game',
-    component: Game
+    component: () => import('@/views/GameView.vue'),
+    meta: {
+      requresAuth: true
+    }
   }
 ]
 
@@ -20,8 +23,19 @@ const router = createRouter({
   history: createWebHistory()
 })
 
-// Add a navigation guard to automatically push to /game on init
-router.beforeEach((to, from, next) => {
+const user = useUser()
+
+// Add a navigation guard to automatically push to /login on init
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some((record) => record.meta.requresAuth)) {
+    if (await user.getCurrentUser()) {
+      next()
+    } else {
+      const snackbar = useSnackbar()
+      snackbar.showSnackbar("you don't have access to that page!")
+      next('/')
+    }
+  }
   if (to.path === '/') {
     next('/login')
   } else {

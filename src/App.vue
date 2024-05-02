@@ -1,18 +1,19 @@
 <template>
-  <main class="main-view">
+  <main>
     <router-view></router-view>
+    <v-snackbar v-model="snackbar.state.isVisible" color="red-darken-2">
+      {{ snackbar.state.errorMsg }}
+    </v-snackbar>
   </main>
 </template>
 
-<style lang="scss" scoped>
-.main-view {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+<script>
+import useSnackbar from './composables/useSnackbar'
+export default {
+  setup() {
+    return {
+      snackbar: useSnackbar()
+    }
+  }
 }
-</style>
+</script>
