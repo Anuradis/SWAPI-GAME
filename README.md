@@ -21,7 +21,9 @@ Players have the option to play multiple rounds. Results are saved only when the
 App implemented in minimal way, entire work was limited to 3 days. I've mainly focused on structuring codebase in order to present code style and best practices if it would be real world project.
 General concept was achieved but due to limited time I didn't implement all I wanted, therefore I will leave here my proposals/imporvements.
 
+- Add TypeScript
 - Memo function to and state to keep stored values of function execution with already used params
+- Add Better error handling, maybe additional random pick for resources that are not found
 - Define more unit and e2e tests (only crucial implemented)
 - JSDocs more can be added (crucial functions commented)
 - Styling of website is not bad as for time spent, but it's definetally not polished up
